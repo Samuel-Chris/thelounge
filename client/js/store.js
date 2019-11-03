@@ -1,10 +1,15 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import settings from "./store-settings";
+
 const storage = require("./localStorage");
 
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
+	modules: {
+		settings,
+	},
 	state: {
 		activeChannel: null,
 		currentUserVisibleError: null,
