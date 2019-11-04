@@ -489,8 +489,22 @@ function initializeClient(socket, client, token, lastMessage, openChannel) {
 		}
 
 		const networkAndChan = client.find(data.target);
+		const newState = Boolean(data.shown);
 
 		if (!networkAndChan) {
+			return;
+		}
+
+		// Process multiple message at once for /collapse and /expand commands
+		if (Array.isArray(data.messageIds)) {
+			for (const msgId of data.messageIds) {
+				const message = networkAndChan.chan.findMessage(msgId);
+
+				for (const preview of message.previews) {
+					preview.shown = newState;
+				}
+			}
+
 			return;
 		}
 
@@ -503,7 +517,7 @@ function initializeClient(socket, client, token, lastMessage, openChannel) {
 		const preview = message.findPreview(data.link);
 
 		if (preview) {
-			preview.shown = data.shown;
+			preview.shown = newState;
 		}
 	});
 
