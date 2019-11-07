@@ -35,7 +35,8 @@ socket.on("msg", function(data) {
 	if (
 		data.msg.showInActive &&
 		vueApp.activeChannel &&
-		vueApp.activeChannel.network === receivingChannel.network
+		vueApp.activeChannel.network === receivingChannel.network &&
+		!document.hidden
 	) {
 		channel = vueApp.activeChannel.channel;
 
